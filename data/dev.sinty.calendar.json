@@ -1,0 +1,7 @@
+{
+  "app_id": "dev.sinty.calendar",
+  "name": "Calendar",
+  "icon": "calendar-symbolic",
+  "exec": "singularity-calendar",
+  "description": "Schedule and manage your events"
+}

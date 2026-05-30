@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="dev.sinty.calendar" path="/dev/sinty/calendar/">
+    <key name="show-weekends" type="b">
+      <default>true</default>
+      <summary>Show weekends in calendar view</summary>
+    </key>
+    <key name="default-view" type="s">
+      <default>'month'</default>
+      <summary>Default calendar view (month, week)</summary>
+    </key>
+  </schema>
+</schemalist>

@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Calendar
+Comment=Schedule and manage your events
+Icon=dev.sinty.calendar
+Exec=singularity-calendar
+Categories=Office;
+Terminal=false
+X-GNOME-Bugzilla-Bugzilla=GNOME
+X-GNOME-Bugzilla-Product=singularity-desktop
+X-GNOME-Bugzilla-Component=General
+X-GNOME-Bugzilla-Version=1.0

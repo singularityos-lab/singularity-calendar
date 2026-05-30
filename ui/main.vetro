@@ -1,0 +1,11 @@
+Template(class: "SingularityAppsCalendarCalendarWindow", parent: "SingularityWidgetsWindow") {
+    HBox(id: "calendar_ui_root", spacing: 0) {
+        Stack(id: "view_stack", hexpand: true, vexpand: true, marginTop: 46)
+
+        VBox(id: "sidebar_box", spacing: 0, marginTop: 54, marginStart: 8, marginEnd: 8) {
+            VBox(id: "nav_host", spacing: 0)
+            Separator(orientation: "horizontal")
+            ScrolledWindow(id: "scroll_sidebar", vexpand: true)
+        }
+    }
+}
