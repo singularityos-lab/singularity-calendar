@@ -14,6 +14,33 @@ namespace Singularity.Apps.Calendar {
             Object (application_id: "dev.sinty.calendar");
         }
 
+        protected override void startup () {
+            base.startup ();
+
+            var menu = new GLib.Menu ();
+            var file_menu = new GLib.Menu ();
+            file_menu.append ("Settings", "app.settings");
+            file_menu.append ("Quit", "app.quit");
+            menu.append_submenu ("File", file_menu);
+            set_menubar (menu);
+
+            var act_settings = new SimpleAction ("settings", null);
+            act_settings.activate.connect (() => {
+                try {
+                    Singularity.Shell.ShellService shell = Bus.get_proxy_sync (
+                        BusType.SESSION, "dev.sinty.desktop", "/dev/sinty/Shell");
+                    shell.open_app_settings ("dev.sinty.calendar");
+                } catch (Error e) {
+                    warning ("Failed to open settings: %s", e.message);
+                }
+            });
+            add_action (act_settings);
+
+            var act_quit = new SimpleAction ("quit", null);
+            act_quit.activate.connect (() => quit ());
+            add_action (act_quit);
+        }
+
         public override void activate () {
             setup_styles ();
             if (win != null) { win.present (); return; }

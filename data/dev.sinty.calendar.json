@@ -3,5 +3,24 @@
   "name": "Calendar",
   "icon": "calendar-symbolic",
   "exec": "singularity-calendar",
-  "description": "Schedule and manage your events"
+  "description": "Schedule and manage your events",
+  "schema-id": "dev.sinty.calendar",
+  "settings": [
+    {
+      "key": "show-weekends",
+      "label": "Show Weekends",
+      "type": "boolean",
+      "widget": "switch"
+    },
+    {
+      "key": "default-view",
+      "label": "Default View",
+      "type": "string",
+      "widget": "combo",
+      "options": [
+        { "id": "month", "label": "Month" },
+        { "id": "week", "label": "Week" }
+      ]
+    }
+  ]
 }
