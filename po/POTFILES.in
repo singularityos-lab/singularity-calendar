@@ -1,0 +1,6 @@
+# List of source files containing translatable strings.
+src/app.vala
+src/goa_provider.vala
+src/local_provider.vala
+src/main.vala
+src/window.vala

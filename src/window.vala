@@ -82,7 +82,7 @@ namespace Singularity.Apps.Calendar {
             nav_picker.today_clicked.connect (_go_today);
             nav_host.append (nav_picker);
 
-            var cal_group = new PreferencesGroup ("Calendars", null);
+            var cal_group = new PreferencesGroup (_("Calendars"), null);
             _populate_calendar_list (cal_group);
             scroll_sidebar.set_child (cal_group);
             scroll_sidebar.vexpand = true;
@@ -143,7 +143,7 @@ namespace Singularity.Apps.Calendar {
         }
 
         private void _update_window_title () {
-            set_title (current_date.format ("%a, %b %e %Y"));
+            set_title (current_date.format (_("%a, %b %e %Y")));
         }
 
         private void _switch_to_day (DateTime d) {
@@ -171,25 +171,25 @@ namespace Singularity.Apps.Calendar {
         private void _update_period_label () {
             switch (view_stack.visible_child_name) {
                 case "month":
-                    period_lbl.label = current_date.format ("%B %Y");
+                    period_lbl.label = current_date.format (_("%B %Y"));
                     break;
                 case "week": {
                     int dow = current_date.get_day_of_week () % 7;
                     var ws  = current_date.add_days (-dow);
                     var we  = ws.add_days (6);
                     if (ws.get_month () == we.get_month ())
-                        period_lbl.label = "%s %d–%d, %d".printf (
+                        period_lbl.label = _("%s %d–%d, %d").printf (
                             ws.format ("%B"), ws.get_day_of_month (), we.get_day_of_month (), ws.get_year ());
                     else
-                        period_lbl.label = "%s %d – %s %d".printf (
+                        period_lbl.label = _("%s %d – %s %d").printf (
                             ws.format ("%b"), ws.get_day_of_month (), we.format ("%b"), we.get_day_of_month ());
                     break;
                 }
                 case "day":
-                    period_lbl.label = current_date.format ("%A, %B %e %Y");
+                    period_lbl.label = current_date.format (_("%A, %B %e %Y"));
                     break;
                 default:
-                    period_lbl.label = current_date.format ("%B %Y");
+                    period_lbl.label = current_date.format (_("%B %Y"));
                     break;
             }
         }
@@ -232,7 +232,7 @@ namespace Singularity.Apps.Calendar {
             vbox.margin_end    = 16;
 
             if (!evt.all_day) {
-                var time_lbl = new Label (evt.start_time.format ("%H:%M") + " – " + evt.end_time.format ("%H:%M"));
+                var time_lbl = new Label (evt.start_time.format (_("%H:%M")) + " – " + evt.end_time.format (_("%H:%M")));
                 time_lbl.halign = Align.START;
                 time_lbl.add_css_class ("dim-label");
                 vbox.append (time_lbl);
@@ -246,7 +246,7 @@ namespace Singularity.Apps.Calendar {
                 vbox.append (desc);
             }
 
-            var close = new Button.with_label ("Close");
+            var close = new Button.with_label (_("Close"));
             close.add_css_class ("suggested-action");
             close.halign = Align.END;
             close.clicked.connect (() => dlg.close ());

@@ -3,6 +3,10 @@ project('singularity-calendar', ['vala', 'c'],
   meson_version: '>= 0.59.0'
 )
 
+i18n = import('i18n')
+add_project_arguments('-DGETTEXT_PACKAGE="singularity-calendar"', language: 'c')
+subdir('po')
+
 gnome = import('gnome')
 
 add_project_arguments('-DGOA_API_IS_SUBJECT_TO_CHANGE', language: 'c')
