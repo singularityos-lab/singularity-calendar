@@ -57,23 +57,21 @@ namespace Singularity.Apps.Calendar {
             view_stack.add_titled (week_view,  "week",  "Week");
             view_stack.add_titled (day_view,   "day",   "Day");
             view_stack.visible_child_name = "month";
-            set_content (view_stack);
 
-            // ── Toolbar ──────────────────────────────────────────────────────
-            period_lbl = new Label ("");
-            period_lbl.add_css_class ("title");
+            period_lbl = add_bubble_label ("", force_ssd);
 
             _view_switcher = new SegmentedControl (view_stack);
             _view_switcher.hexpand = false;
+            _view_switcher.add_css_class ("singularity-hover-segmented");
+            add_bubble_widget (_view_switcher);
 
-            toolbar.pack_start (_view_switcher);
-            toolbar.set_title_widget (period_lbl);
-            toolbar.is_static = false;
+            set_content (view_stack);
 
             // ── Sidebar ──────────────────────────────────────────────────────
             nav_picker = new CalendarNavPicker ();
-            nav_picker.margin_top    = 8;
             nav_picker.margin_bottom = 4;
+            Singularity.Widgets.apply_titlebar_inset (sidebar_box);
+            Singularity.Widgets.apply_titlebar_inset (view_stack);
             nav_picker.set_date (current_date);
             nav_picker.date_selected.connect ((d) => {
                 current_date = d;
