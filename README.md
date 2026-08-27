@@ -1,5 +1,9 @@
 # Singularity Calendar
 
+> [!IMPORTANT]
+> Report bugs and request features in the
+> [Singularity Desktop tracker](https://github.com/singularityos-lab/singularity-desktop/issues/new/choose).
+
 Calendar app for the Singularity Desktop.
 
 ## Requirements
