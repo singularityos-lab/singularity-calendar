@@ -1,0 +1,8 @@
+[Widget]
+Id=calendar.upcoming
+ProviderId=dev.sinty.calendar
+Name=Upcoming Events
+IconName=dev.sinty.calendar
+Sizes=2x2;4x2
+Module=libsingularity-calendar-widget.so
+ModuleSymbol=singularity_calendar_widget_new

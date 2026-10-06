@@ -4,10 +4,12 @@ Type=Application
 Name=Calendar
 Comment=Schedule and manage your events
 Icon=dev.sinty.calendar
-Exec=singularity-calendar
+Exec=singularity-calendar %U
+MimeType=text/calendar;
 Categories=Office;
 Terminal=false
-X-GNOME-Bugzilla-Bugzilla=GNOME
-X-GNOME-Bugzilla-Product=singularity-desktop
-X-GNOME-Bugzilla-Component=General
-X-GNOME-Bugzilla-Version=1.0
+Actions=new-event;
+
+[Desktop Action new-event]
+Name=New Event
+Exec=singularity-calendar --new-event

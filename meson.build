@@ -9,11 +9,8 @@ subdir('po')
 
 gnome = import('gnome')
 
-add_project_arguments('-DGOA_API_IS_SUBJECT_TO_CHANGE', language: 'c')
-
 gtk_dep  = dependency('gtk4')
 gee_dep  = dependency('gee-0.8')
-goa_dep  = dependency('goa-1.0')
 soup_dep = dependency('libsoup-3.0')
 json_dep = dependency('json-glib-1.0')
 
@@ -39,14 +36,42 @@ sources = files(
   'src/main.vala',
   'src/window.vala',
   'src/app.vala',
-  'src/local_provider.vala',
-  'src/goa_provider.vala',
+  'src/event_store.vala',
+  'src/recurrence_editor.vala',
+  'src/event_editor.vala',
+  'src/event_details.vala',
+  'src/invitations.vala',
+  'src/search.vala',
 )
 
 executable('singularity-calendar',
   sources + [resources],
-  dependencies: [gtk_dep, gee_dep, goa_dep, soup_dep, json_dep, libsingularity_dep],
+  dependencies: [gtk_dep, gee_dep, soup_dep, json_dep, libsingularity_dep],
   install: true
+)
+
+shared_module('singularity-calendar-widget',
+  files('widget/upcoming_widget.vala'),
+  dependencies: [gtk_dep, gee_dep, soup_dep, json_dep, libsingularity_dep],
+  install: true,
+  install_dir: get_option('libdir') / 'singularity' / 'widgets'
+)
+install_data('widget/dev.sinty.calendar.upcoming.widget',
+  install_dir: get_option('datadir') / 'singularity' / 'widgets'
+)
+
+install_data('data/search-providers/dev.sinty.calendar.ini',
+  install_dir: get_option('datadir') / 'singularity' / 'search-providers'
+)
+
+service_conf = configuration_data()
+service_conf.set('bindir', get_option('prefix') / get_option('bindir'))
+configure_file(
+  input: 'data/dev.sinty.calendar.service.in',
+  output: 'dev.sinty.calendar.service',
+  configuration: service_conf,
+  install: true,
+  install_dir: get_option('datadir') / 'dbus-1' / 'services'
 )
 
 install_data('data/dev.sinty.calendar.desktop',
@@ -58,7 +83,7 @@ install_data('data/dev.sinty.calendar.gschema.xml',
 )
 
 install_data('data/dev.sinty.calendar.json',
-  install_dir: get_option('datadir') / 'singularity' / 'apps'
+  install_dir: get_option('datadir') / 'singularity' / 'app-settings'
 )
 
 install_data('data/icons/dev.sinty.calendar.svg',

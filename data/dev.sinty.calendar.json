@@ -19,8 +19,40 @@
       "widget": "combo",
       "options": [
         { "id": "month", "label": "Month" },
-        { "id": "week", "label": "Week" }
+        { "id": "week", "label": "Week" },
+        { "id": "day", "label": "Day" },
+        { "id": "list", "label": "List" }
       ]
+    },
+    {
+      "key": "default-duration",
+      "label": "New Event Length (minutes)",
+      "type": "int",
+      "widget": "spin",
+      "min": 5,
+      "max": 1440,
+      "step": 5
+    },
+    {
+      "key": "default-alarm",
+      "label": "Default Reminder (minutes before, -1 for none)",
+      "type": "int",
+      "widget": "spin",
+      "min": -1,
+      "max": 10080,
+      "step": 5
+    },
+    {
+      "key": "owner-name",
+      "label": "Your Name for Invitations",
+      "type": "string",
+      "widget": "entry"
+    },
+    {
+      "key": "owner-email",
+      "label": "Your Email for Invitations",
+      "type": "string",
+      "widget": "entry"
     }
   ]
 }

@@ -1,67 +1,44 @@
 <svg width="236" height="236" viewBox="0 0 236 236" fill="none" xmlns="http://www.w3.org/2000/svg">
 <defs>
-  <filter id="shadow" x="-10%" y="-10%" width="120%" height="125%" filterUnits="userSpaceOnUse">
-    <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="rgba(0,0,0,0.20)"/>
-  </filter>
-  <radialGradient id="hdr_shine" cx="80" cy="36" r="100" gradientUnits="userSpaceOnUse">
-    <stop offset="0%" stop-color="white" stop-opacity="0.22"/>
-    <stop offset="100%" stop-color="white" stop-opacity="0"/>
-  </radialGradient>
+<linearGradient id="cl_paper" x1="118" y1="34" x2="118" y2="210" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#eef1f4"/></linearGradient>
+<linearGradient id="cl_side" x1="0" y1="200" x2="0" y2="220" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#aeb6c1"/><stop offset="1" stop-color="#8a93a0"/></linearGradient>
+<linearGradient id="cl_head" x1="118" y1="34" x2="118" y2="96" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#f76a5f"/><stop offset="0.6" stop-color="#ea4a42"/><stop offset="1" stop-color="#d8392f"/></linearGradient>
+<linearGradient id="cl_hi" x1="0" y1="140" x2="0" y2="170" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#f76a5f"/><stop offset="1" stop-color="#e5433a"/></linearGradient>
+<linearGradient id="cl_ring" x1="0" y1="0" x2="14" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#8e99a6"/><stop offset="0.4" stop-color="#f4f7fa"/><stop offset="1" stop-color="#6b7482"/></linearGradient>
+<radialGradient id="cl_bloom" cx="70" cy="36" r="160" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="white" stop-opacity="0.3"/><stop offset="1" stop-color="white" stop-opacity="0"/></radialGradient>
+<clipPath id="cl_clip"><path d="M56 34H180Q208 34 208 62V182Q208 210 180 210H56Q28 210 28 182V62Q28 34 56 34Z"/></clipPath>
+<filter id="cl_shadow" x="-20" y="-20" width="276" height="276" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="5" stdDeviation="6" flood-color="#1a0f0f" flood-opacity="0.4"/></filter>
+<filter id="cl_ring_shadow" x="-20" y="-20" width="276" height="276" filterUnits="userSpaceOnUse"><feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#5a1410" flood-opacity="0.45"/></filter>
+<linearGradient id="cl_ring_a" x1="65" y1="0" x2="79" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#8e99a6"/><stop offset="0.4" stop-color="#f4f7fa"/><stop offset="1" stop-color="#6b7482"/></linearGradient>
+<linearGradient id="cl_ring_b" x1="157" y1="0" x2="171" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#8e99a6"/><stop offset="0.4" stop-color="#f4f7fa"/><stop offset="1" stop-color="#6b7482"/></linearGradient>
 </defs>
-
-<!-- Calendar body: white rounded rect -->
-<rect x="28" y="28" width="180" height="186" rx="18" fill="white" filter="url(#shadow)"/>
-
-<!-- Red header: rounded top, flat bottom -->
-<rect x="28" y="28" width="180" height="70" rx="18" fill="#e03131"/>
-<rect x="28" y="68" width="180" height="30" fill="#e03131"/>
-<rect x="28" y="28" width="180" height="70" rx="18" fill="url(#hdr_shine)"/>
-<rect x="28" y="68" width="180" height="30" fill="url(#hdr_shine)"/>
-
-<!-- Month label bar on header -->
-<rect x="84" y="50" width="68" height="10" rx="5" fill="rgba(255,255,255,0.88)"/>
-
-<!-- Day-of-week header dots - 7 columns -->
-<rect x="39"  y="104" width="18" height="6" rx="3" fill="rgba(0,0,0,0.12)"/>
-<rect x="63"  y="104" width="18" height="6" rx="3" fill="rgba(0,0,0,0.12)"/>
-<rect x="87"  y="104" width="18" height="6" rx="3" fill="rgba(0,0,0,0.12)"/>
-<rect x="111" y="104" width="18" height="6" rx="3" fill="rgba(0,0,0,0.12)"/>
-<rect x="135" y="104" width="18" height="6" rx="3" fill="rgba(0,0,0,0.12)"/>
-<rect x="159" y="104" width="18" height="6" rx="3" fill="rgba(0,0,0,0.12)"/>
-<rect x="179" y="104" width="18" height="6" rx="3" fill="rgba(0,0,0,0.08)"/>
-
-<!-- Date grid - 4 rows × 7 cols -->
-<!-- Row 1  y=118 -->
-<rect x="39"  y="118" width="18" height="14" rx="5" fill="rgba(0,0,0,0.05)"/>
-<rect x="63"  y="118" width="18" height="14" rx="5" fill="rgba(0,0,0,0.05)"/>
-<rect x="87"  y="118" width="18" height="14" rx="5" fill="rgba(0,0,0,0.05)"/>
-<rect x="111" y="118" width="18" height="14" rx="5" fill="rgba(0,0,0,0.05)"/>
-<rect x="135" y="118" width="18" height="14" rx="5" fill="rgba(0,0,0,0.05)"/>
-<rect x="159" y="118" width="18" height="14" rx="5" fill="rgba(0,0,0,0.05)"/>
-<rect x="179" y="118" width="18" height="14" rx="5" fill="rgba(0,0,0,0.03)"/>
-<!-- Row 2  y=140 - today highlighted -->
-<rect x="39"  y="140" width="18" height="14" rx="5" fill="rgba(0,0,0,0.05)"/>
-<rect x="63"  y="140" width="18" height="14" rx="5" fill="rgba(0,0,0,0.05)"/>
-<rect x="87"  y="140" width="18" height="14" rx="5" fill="#e03131"/>
-<rect x="111" y="140" width="18" height="14" rx="5" fill="rgba(0,0,0,0.05)"/>
-<rect x="135" y="140" width="18" height="14" rx="5" fill="rgba(0,0,0,0.05)"/>
-<rect x="159" y="140" width="18" height="14" rx="5" fill="rgba(0,0,0,0.05)"/>
-<rect x="179" y="140" width="18" height="14" rx="5" fill="rgba(0,0,0,0.03)"/>
-<!-- Row 3  y=162 -->
-<rect x="39"  y="162" width="18" height="14" rx="5" fill="rgba(0,0,0,0.05)"/>
-<rect x="63"  y="162" width="18" height="14" rx="5" fill="rgba(0,0,0,0.05)"/>
-<rect x="87"  y="162" width="18" height="14" rx="5" fill="rgba(0,0,0,0.05)"/>
-<rect x="111" y="162" width="18" height="14" rx="5" fill="rgba(0,0,0,0.05)"/>
-<rect x="135" y="162" width="18" height="14" rx="5" fill="rgba(0,0,0,0.05)"/>
-<rect x="159" y="162" width="18" height="14" rx="5" fill="rgba(0,0,0,0.05)"/>
-<rect x="179" y="162" width="18" height="14" rx="5" fill="rgba(0,0,0,0.03)"/>
-<!-- Row 4  y=184 -->
-<rect x="39"  y="184" width="18" height="14" rx="5" fill="rgba(0,0,0,0.05)"/>
-<rect x="63"  y="184" width="18" height="14" rx="5" fill="rgba(0,0,0,0.05)"/>
-<rect x="87"  y="184" width="18" height="14" rx="5" fill="rgba(0,0,0,0.05)"/>
-<rect x="111" y="184" width="18" height="14" rx="5" fill="rgba(0,0,0,0.05)"/>
-<rect x="135" y="184" width="18" height="14" rx="5" fill="rgba(0,0,0,0.05)"/>
-<rect x="159" y="184" width="18" height="14" rx="5" fill="rgba(0,0,0,0.05)"/>
-<rect x="179" y="184" width="18" height="14" rx="5" fill="rgba(0,0,0,0.03)"/>
-
+<g filter="url(#cl_shadow)">
+<path d="M56 34H180Q208 34 208 62V182Q208 210 180 210H56Q28 210 28 182V62Q28 34 56 34Z" fill="url(#cl_side)" transform="translate(0 10)"/>
+<path d="M56 34H180Q208 34 208 62V182Q208 210 180 210H56Q28 210 28 182V62Q28 34 56 34Z" fill="url(#cl_paper)"/>
+</g>
+<g clip-path="url(#cl_clip)">
+<rect x="0" y="0" width="236" height="96" fill="url(#cl_head)"/>
+<rect x="0" y="96" width="236" height="5" fill="#5a1410" opacity="0.12"/>
+<rect width="236" height="236" fill="url(#cl_bloom)"/>
+</g>
+<path d="M56 34H180Q208 34 208 62V182Q208 210 180 210H56Q28 210 28 182V62Q28 34 56 34Z" stroke="white" stroke-opacity="0.3" stroke-width="4" clip-path="url(#cl_clip)"/>
+<rect x="84" y="62" width="68" height="14" rx="7" fill="white" opacity="0.92"/>
+<circle cx="72" cy="48" r="7" fill="#8e1f18" opacity="0.6"/>
+<circle cx="164" cy="48" r="7" fill="#8e1f18" opacity="0.6"/>
+<g filter="url(#cl_ring_shadow)">
+<rect x="65" y="16" width="14" height="36" rx="7" fill="url(#cl_ring_a)"/>
+<rect x="157" y="16" width="14" height="36" rx="7" fill="url(#cl_ring_b)"/>
+</g>
+<rect x="50" y="112" width="28" height="22" rx="8" fill="#dfe4ea"/>
+<rect x="86" y="112" width="28" height="22" rx="8" fill="#dfe4ea"/>
+<rect x="122" y="112" width="28" height="22" rx="8" fill="#dfe4ea"/>
+<rect x="158" y="112" width="28" height="22" rx="8" fill="#dfe4ea"/>
+<rect x="50" y="144" width="28" height="22" rx="8" fill="#dfe4ea"/>
+<rect x="86" y="147" width="28" height="22" rx="8" fill="#a3221c"/>
+<rect x="86" y="144" width="28" height="22" rx="8" fill="url(#cl_hi)"/>
+<rect x="122" y="144" width="28" height="22" rx="8" fill="#dfe4ea"/>
+<rect x="158" y="144" width="28" height="22" rx="8" fill="#dfe4ea"/>
+<rect x="50" y="176" width="28" height="22" rx="8" fill="#dfe4ea"/>
+<rect x="86" y="176" width="28" height="22" rx="8" fill="#dfe4ea"/>
+<rect x="122" y="176" width="28" height="22" rx="8" fill="#dfe4ea"/>
 </svg>

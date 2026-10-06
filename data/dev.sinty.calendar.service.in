@@ -1,0 +1,3 @@
+[D-BUS Service]
+Name=dev.sinty.calendar
+Exec=@bindir@/singularity-calendar --gapplication-service

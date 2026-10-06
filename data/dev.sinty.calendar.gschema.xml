@@ -7,7 +7,27 @@
     </key>
     <key name="default-view" type="s">
       <default>'month'</default>
-      <summary>Default calendar view (month, week)</summary>
+      <summary>Default calendar view (month, week, day, list)</summary>
+    </key>
+    <key name="default-calendar" type="s">
+      <default>'local-provider'</default>
+      <summary>Calendar that new events are added to</summary>
+    </key>
+    <key name="default-duration" type="i">
+      <default>60</default>
+      <summary>Length of new events in minutes</summary>
+    </key>
+    <key name="default-alarm" type="i">
+      <default>15</default>
+      <summary>Reminder for new events, in minutes before the start (-1 for none)</summary>
+    </key>
+    <key name="owner-name" type="s">
+      <default>''</default>
+      <summary>Name used as organizer of invitations</summary>
+    </key>
+    <key name="owner-email" type="s">
+      <default>''</default>
+      <summary>Email address used as organizer of invitations</summary>
     </key>
   </schema>
 </schemalist>
