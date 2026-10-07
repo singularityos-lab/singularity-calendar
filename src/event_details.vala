@@ -17,6 +17,7 @@ namespace Singularity.Apps.Calendar {
         public signal void respond_requested (CalendarEvent evt, string status);
         public signal void invite_requested (CalendarEvent evt);
         public signal void export_requested (CalendarEvent evt);
+        public signal void share_requested (CalendarEvent evt);
 
         public EventDetails (CalendarApp app, CalendarEvent evt) {
             this.app = app;
@@ -65,6 +66,18 @@ namespace Singularity.Apps.Calendar {
                     box.append (row);
                 } else {
                     add_line (box, "mark-location-symbolic", loc);
+                    var now = new DateTime.now_local ();
+                    if (evt.start_time.compare (now.add_hours (-2)) > 0 && evt.start_time.compare (now.add_days (7)) < 0) {
+                        var forecast = add_line (box, "weather-few-clouds-symbolic", _("Checking the weather…"));
+                        forecast.visible = false;
+                        int64 at = evt.all_day ? evt.start_time.add_hours (12).to_unix () : evt.start_time.to_unix ();
+                        load_forecast.begin (loc, at, forecast);
+                        if (!evt.all_day && evt.start_time.compare (now) > 0) {
+                            var travel = add_line (box, "find-location-symbolic", _("Checking travel time…"));
+                            travel.visible = false;
+                            load_travel.begin (loc, evt.start_time, travel);
+                        }
+                    }
                 }
             }
             if (evt.alarms != null && evt.alarms.length > 0) {
@@ -153,6 +166,7 @@ namespace Singularity.Apps.Calendar {
             }
             actions.append (action_button ("edit-paste-symbolic", _("Copy"), () => copy_requested (evt)));
             actions.append (action_button ("document-save-symbolic", _("Export"), () => export_requested (evt)));
+            actions.append (action_button ("singularity-share-symbolic", _("Share"), () => share_requested (evt)));
             if (writable && organizer_is_me && evt.attendees != null && evt.attendees.size > 0) {
                 actions.append (action_button ("mail-send-symbolic", _("Send Invitations"), () => invite_requested (evt)));
             }
@@ -190,6 +204,54 @@ namespace Singularity.Apps.Calendar {
             if (minutes < 60) return ngettext ("%d minute before", "%d minutes before", minutes).printf (minutes);
             if (minutes < 1440) return ngettext ("%d hour before", "%d hours before", minutes / 60).printf (minutes / 60);
             return ngettext ("%d day before", "%d days before", minutes / 1440).printf (minutes / 1440);
+        }
+
+        private async void load_forecast (string location, int64 at, Box row) {
+            try {
+                var bus = yield GLib.Bus.get (BusType.SESSION);
+                var reply = yield bus.call ("dev.sinty.weather", "/dev/sinty/weather/Forecast", "dev.sinty.Weather1", "ForecastAt",
+                    new Variant ("(sx)", location, at), new VariantType ("(ssdis)"), DBusCallFlags.NONE, 20000, null);
+                string label, icon, place;
+                double temp;
+                int rain;
+                reply.get ("(ssdis)", out label, out icon, out temp, out rain, out place);
+                var image = row.get_first_child () as Image;
+                if (image != null && icon != "") image.icon_name = icon + "-symbolic";
+                var text = row.get_last_child () as Label;
+                if (text != null) {
+                    text.label = rain > 0 ? _("%s, %d°, %d%% chance of rain").printf (label, (int) Math.round (temp), rain) : _("%s, %d°").printf (label, (int) Math.round (temp));
+                    text.tooltip_text = _("Forecast for %s").printf (place);
+                }
+                row.visible = true;
+            } catch (Error e) {
+                debug ("Calendar: no forecast for %s: %s", location, e.message);
+            }
+        }
+
+        private async void load_travel (string location, DateTime start, Box row) {
+            try {
+                var bus = yield GLib.Bus.get (BusType.SESSION);
+                var reply = yield bus.call ("dev.sinty.maps", "/dev/sinty/maps/Travel", "dev.sinty.Maps1", "TravelTime",
+                    new Variant ("(ss)", location, "car"), new VariantType ("(dds)"), DBusCallFlags.NONE, 40000, null);
+                double seconds, meters;
+                string place;
+                reply.get ("(dds)", out seconds, out meters, out place);
+                int minutes = int.max (1, (int) Math.round (seconds / 60));
+                string trip = minutes < 60
+                    ? ngettext ("%d min by car", "%d min by car", minutes).printf (minutes)
+                    : _("%d h %d min by car").printf (minutes / 60, minutes % 60);
+                var leave = start.add_minutes (-minutes);
+                var text = row.get_last_child () as Label;
+                if (text != null) {
+                    text.label = leave.compare (new DateTime.now_local ()) <= 0
+                        ? _("Leave now, %s").printf (trip)
+                        : _("Leave by %s, %s").printf (leave.format ("%H:%M"), trip);
+                    text.tooltip_text = _("Route to %s from your location").printf (place);
+                }
+                row.visible = true;
+            } catch (Error e) {
+                debug ("Calendar: no travel time for %s: %s", location, e.message);
+            }
         }
 
         private Box add_line (Box parent, string icon_name, string text) {

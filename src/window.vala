@@ -304,6 +304,22 @@ namespace Singularity.Apps.Calendar {
             create_at (start, start.add_minutes (app.settings.get_int ("default-duration")), false);
         }
 
+        public void new_event_at (DateTime when, bool timed, string title) {
+            show_day (when);
+            DateTime start, end;
+            if (timed) {
+                start = when;
+                end = when.add_minutes (app.settings.get_int ("default-duration"));
+            } else {
+                start = new DateTime.local (when.get_year (), when.get_month (), when.get_day_of_month (), 0, 0, 0);
+                end = start.add_days (1);
+            }
+            var evt = EventStore.blank (start, end, !timed);
+            evt.title = title;
+            apply_defaults (ref evt);
+            open_editor (null, evt);
+        }
+
         private void create_at (DateTime start, DateTime end, bool all_day) {
             var evt = EventStore.blank (start, end, all_day);
             apply_defaults (ref evt);
@@ -494,6 +510,20 @@ namespace Singularity.Apps.Calendar {
         }
 
         private void open_details (CalendarEvent evt, Widget source, Gdk.Rectangle? rect) {
+            string? task = TasksProvider.task_uid (evt.id);
+            if (task != null) {
+                var menu = new ContextMenu (source);
+                if (rect != null) menu.set_pointing_to (rect);
+                menu.add_item (_("Mark Done"), "object-select-symbolic", () => {
+                    ShareTargets.activate_app_action.begin ("dev.sinty.tasks", "complete-task", new Variant.string (task));
+                });
+                menu.add_item (_("Open in Tasks"), "document-open-symbolic", () => {
+                    ShareTargets.activate_app_action.begin ("dev.sinty.tasks", "show-task", new Variant.string (task));
+                });
+                menu.closed.connect (() => Idle.add (() => { menu.unparent (); return false; }));
+                menu.popup ();
+                return;
+            }
             focused_event = evt;
             ((SimpleAction) lookup_action ("copy-event")).set_enabled (true);
             var details = new EventDetails (app, evt);
@@ -518,6 +548,10 @@ namespace Singularity.Apps.Calendar {
                 Invitations.send_invites (master ?? e);
             });
             details.export_requested.connect (export_event);
+            details.share_requested.connect ((e) => {
+                details.popdown ();
+                share_event (e);
+            });
             details.copy_requested.connect ((e) => {
                 details.popdown ();
                 copy_event (e);
@@ -565,6 +599,24 @@ namespace Singularity.Apps.Calendar {
                 } catch (Error e) {
                 }
             });
+        }
+
+        private void share_event (CalendarEvent evt) {
+            var provider = store.writable (evt.calendar_id);
+            var master = provider != null ? provider.find_event (evt.id) : null;
+            CalendarEvent target = master ?? evt;
+            target.occurrence_start = null;
+            string dir = Path.build_filename (Environment.get_user_cache_dir (), "singularity", "calendar-share");
+            DirUtils.create_with_parents (dir, 0700);
+            string path = Path.build_filename (dir, "%s.ics".printf ((target.title != "" ? target.title : "event").replace ("/", "-")));
+            var list = new Gee.ArrayList<CalendarEvent?> ();
+            list.add (target);
+            try {
+                FileUtils.set_contents (path, Ics.serialize (list));
+                Singularity.Share.files (this, { File.new_for_path (path) });
+            } catch (Error e) {
+                warning ("Calendar: share failed: %s", e.message);
+            }
         }
 
         private void export_calendar (WritableCalendarProvider provider) {

@@ -22,6 +22,7 @@ namespace Singularity.Apps.Calendar {
 
         public static void register_calendars (CalendarManager mgr) {
             LocalProvider.register_all (mgr);
+            TasksProvider.register (mgr);
             WebCalendarProvider.register_all (mgr);
             AccountCalendars.register_all (mgr);
         }
@@ -113,6 +114,15 @@ namespace Singularity.Apps.Calendar {
                 when_shown ((w) => w.reveal_event (calendar_id, event_id, start));
             });
             add_action (open_event);
+
+            var new_event_at = new SimpleAction ("new-event-at", new VariantType ("(xbs)"));
+            new_event_at.activate.connect ((param) => {
+                int64 when = param.get_child_value (0).get_int64 ();
+                bool timed = param.get_child_value (1).get_boolean ();
+                string title = param.get_child_value (2).get_string ();
+                when_shown ((w) => w.new_event_at (new DateTime.from_unix_local (when), timed, title));
+            });
+            add_action (new_event_at);
 
             var show_day = new SimpleAction ("show-day", VariantType.INT64);
             show_day.activate.connect ((param) => {
