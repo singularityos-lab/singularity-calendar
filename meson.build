@@ -35,6 +35,7 @@ resources = gnome.compile_resources(
 sources = files(
   'src/main.vala',
   'src/window.vala',
+  'src/calendar_bus.vala',
   'src/app.vala',
   'src/event_store.vala',
   'src/recurrence_editor.vala',
@@ -58,6 +59,10 @@ shared_module('singularity-calendar-widget',
 )
 install_data('widget/dev.sinty.calendar.upcoming.widget',
   install_dir: get_option('datadir') / 'singularity' / 'widgets'
+)
+
+install_data('data/capabilities/dev.sinty.Calendar1.ini',
+  install_dir: get_option('datadir') / 'singularity' / 'capabilities'
 )
 
 install_data('data/search-providers/dev.sinty.calendar.ini',

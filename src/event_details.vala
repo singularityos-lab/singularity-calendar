@@ -68,11 +68,13 @@ namespace Singularity.Apps.Calendar {
                     add_line (box, "mark-location-symbolic", loc);
                     var now = new DateTime.now_local ();
                     if (evt.start_time.compare (now.add_hours (-2)) > 0 && evt.start_time.compare (now.add_days (7)) < 0) {
-                        var forecast = add_line (box, "weather-few-clouds-symbolic", _("Checking the weather…"));
-                        forecast.visible = false;
-                        int64 at = evt.all_day ? evt.start_time.add_hours (12).to_unix () : evt.start_time.to_unix ();
-                        load_forecast.begin (loc, at, forecast);
-                        if (!evt.all_day && evt.start_time.compare (now) > 0) {
+                        if (Capabilities.available (Contracts.WEATHER)) {
+                            var forecast = add_line (box, "weather-few-clouds-symbolic", _("Checking the weather…"));
+                            forecast.visible = false;
+                            int64 at = evt.all_day ? evt.start_time.add_hours (12).to_unix () : evt.start_time.to_unix ();
+                            load_forecast.begin (loc, at, forecast);
+                        }
+                        if (!evt.all_day && evt.start_time.compare (now) > 0 && Capabilities.available (Contracts.MAPS)) {
                             var travel = add_line (box, "find-location-symbolic", _("Checking travel time…"));
                             travel.visible = false;
                             load_travel.begin (loc, evt.start_time, travel);
@@ -208,9 +210,7 @@ namespace Singularity.Apps.Calendar {
 
         private async void load_forecast (string location, int64 at, Box row) {
             try {
-                var bus = yield GLib.Bus.get (BusType.SESSION);
-                var reply = yield bus.call ("dev.sinty.weather", "/dev/sinty/weather/Forecast", "dev.sinty.Weather1", "ForecastAt",
-                    new Variant ("(sx)", location, at), new VariantType ("(ssdis)"), DBusCallFlags.NONE, 20000, null);
+                var reply = yield Capabilities.call (Contracts.WEATHER, "ForecastAt", new Variant ("(sx)", location, at), new VariantType ("(ssdis)"), 20000);
                 string label, icon, place;
                 double temp;
                 int rain;
@@ -230,9 +230,7 @@ namespace Singularity.Apps.Calendar {
 
         private async void load_travel (string location, DateTime start, Box row) {
             try {
-                var bus = yield GLib.Bus.get (BusType.SESSION);
-                var reply = yield bus.call ("dev.sinty.maps", "/dev/sinty/maps/Travel", "dev.sinty.Maps1", "TravelTime",
-                    new Variant ("(ss)", location, "car"), new VariantType ("(dds)"), DBusCallFlags.NONE, 40000, null);
+                var reply = yield Capabilities.call (Contracts.MAPS, "TravelTime", new Variant ("(ss)", location, "car"), new VariantType ("(dds)"), 40000);
                 double seconds, meters;
                 string place;
                 reply.get ("(dds)", out seconds, out meters, out place);

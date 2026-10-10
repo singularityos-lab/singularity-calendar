@@ -22,7 +22,6 @@ namespace Singularity.Apps.Calendar {
 
         public static void register_calendars (CalendarManager mgr) {
             LocalProvider.register_all (mgr);
-            TasksProvider.register (mgr);
             WebCalendarProvider.register_all (mgr);
             AccountCalendars.register_all (mgr);
         }
@@ -41,6 +40,20 @@ namespace Singularity.Apps.Calendar {
             }
             pending_new_event = true;
             return -1;
+        }
+
+        private uint calendar_bus_id = 0;
+
+        public override bool dbus_register (DBusConnection connection, string object_path) throws Error {
+            if (!base.dbus_register (connection, object_path)) return false;
+            calendar_bus_id = connection.register_object ("/dev/sinty/calendar/Calendar", new CalendarBus (this));
+            return true;
+        }
+
+        public override void dbus_unregister (DBusConnection connection, string object_path) {
+            if (calendar_bus_id != 0) connection.unregister_object (calendar_bus_id);
+            calendar_bus_id = 0;
+            base.dbus_unregister (connection, object_path);
         }
 
         protected override void startup () {

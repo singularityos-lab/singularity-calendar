@@ -510,15 +510,16 @@ namespace Singularity.Apps.Calendar {
         }
 
         private void open_details (CalendarEvent evt, Widget source, Gdk.Rectangle? rect) {
-            string? task = TasksProvider.task_uid (evt.id);
+            string? task = null;
+            if (evt.calendar_id == "local-dev.sinty.tasks" && evt.id.has_prefix ("task-") && Capabilities.available (Contracts.TASKS)) task = evt.id.substring (5);
             if (task != null) {
                 var menu = new ContextMenu (source);
                 if (rect != null) menu.set_pointing_to (rect);
                 menu.add_item (_("Mark Done"), "object-select-symbolic", () => {
-                    ShareTargets.activate_app_action.begin ("dev.sinty.tasks", "complete-task", new Variant.string (task));
+                    Capabilities.call_and_forget (Contracts.TASKS, "SetCompleted", new Variant ("(sb)", task, true));
                 });
                 menu.add_item (_("Open in Tasks"), "document-open-symbolic", () => {
-                    ShareTargets.activate_app_action.begin ("dev.sinty.tasks", "show-task", new Variant.string (task));
+                    Capabilities.call_and_forget (Contracts.TASKS, "ShowTask", new Variant ("(s)", task));
                 });
                 menu.closed.connect (() => Idle.add (() => { menu.unparent (); return false; }));
                 menu.popup ();
