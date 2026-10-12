@@ -557,6 +557,11 @@ namespace Singularity.Apps.Calendar {
                 details.popdown ();
                 copy_event (e);
             });
+            details.send_requested.connect ((e) => {
+                var anchor = details.get_parent () ?? (Widget) this;
+                details.popdown ();
+                send_event (e, anchor);
+            });
             if (rect != null) details.pointing_to = rect;
             details.popup ();
         }
@@ -618,6 +623,20 @@ namespace Singularity.Apps.Calendar {
             } catch (Error e) {
                 warning ("Calendar: share failed: %s", e.message);
             }
+        }
+
+        private void send_event (CalendarEvent evt, Widget anchor) {
+            var provider = store.writable (evt.calendar_id);
+            var master = provider != null ? provider.find_event (evt.id) : null;
+            CalendarEvent target = master ?? evt;
+            target.occurrence_start = null;
+            var list = new Gee.ArrayList<CalendarEvent?> ();
+            list.add (target);
+            string when = target.start_time != null ? target.start_time.to_local ().format ("%x %H:%M") : "";
+            string text = when != "" ? "%s\n%s".printf (target.title, when) : target.title;
+            Singularity.Collab.send_to (anchor, "Event", target.title, Ics.serialize (list), text, (person) => {
+                add_toast (new Singularity.Widgets.Toast (_("Sent to %s").printf (person.name)));
+            });
         }
 
         private void export_calendar (WritableCalendarProvider provider) {

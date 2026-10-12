@@ -18,6 +18,7 @@ namespace Singularity.Apps.Calendar {
         public signal void invite_requested (CalendarEvent evt);
         public signal void export_requested (CalendarEvent evt);
         public signal void share_requested (CalendarEvent evt);
+        public signal void send_requested (CalendarEvent evt);
 
         public EventDetails (CalendarApp app, CalendarEvent evt) {
             this.app = app;
@@ -169,6 +170,7 @@ namespace Singularity.Apps.Calendar {
             actions.append (action_button ("edit-paste-symbolic", _("Copy"), () => copy_requested (evt)));
             actions.append (action_button ("document-save-symbolic", _("Export"), () => export_requested (evt)));
             actions.append (action_button ("singularity-share-symbolic", _("Share"), () => share_requested (evt)));
+            if (Singularity.Collab.Client.installed ()) actions.append (action_button ("document-send-symbolic", _("Send to…"), () => send_requested (evt)));
             if (writable && organizer_is_me && evt.attendees != null && evt.attendees.size > 0) {
                 actions.append (action_button ("mail-send-symbolic", _("Send Invitations"), () => invite_requested (evt)));
             }

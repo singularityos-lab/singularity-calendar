@@ -43,15 +43,19 @@ namespace Singularity.Apps.Calendar {
         }
 
         private uint calendar_bus_id = 0;
+        private uint event_collab_id = 0;
 
         public override bool dbus_register (DBusConnection connection, string object_path) throws Error {
             if (!base.dbus_register (connection, object_path)) return false;
             calendar_bus_id = connection.register_object ("/dev/sinty/calendar/Calendar", new CalendarBus (this));
+            event_collab_id = connection.register_object ("/dev/sinty/calendar/Collab", new EventCollabBus (this));
             return true;
         }
 
         public override void dbus_unregister (DBusConnection connection, string object_path) {
             if (calendar_bus_id != 0) connection.unregister_object (calendar_bus_id);
+            if (event_collab_id != 0) connection.unregister_object (event_collab_id);
+            event_collab_id = 0;
             calendar_bus_id = 0;
             base.dbus_unregister (connection, object_path);
         }

@@ -61,7 +61,7 @@ install_data('widget/dev.sinty.calendar.upcoming.widget',
   install_dir: get_option('datadir') / 'singularity' / 'widgets'
 )
 
-install_data('data/capabilities/dev.sinty.Calendar1.ini',
+install_data('data/capabilities/dev.sinty.Calendar1.ini', 'data/capabilities/dev.sinty.Collab.Event1.ini',
   install_dir: get_option('datadir') / 'singularity' / 'capabilities'
 )
 
