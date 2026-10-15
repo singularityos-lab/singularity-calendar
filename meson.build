@@ -13,6 +13,7 @@ gtk_dep  = dependency('gtk4')
 gee_dep  = dependency('gee-0.8')
 soup_dep = dependency('libsoup-3.0')
 json_dep = dependency('json-glib-1.0')
+math_dep = meson.get_compiler('c').find_library('m')
 
 libsingularity_dep = dependency('singularity-1.0',
   fallback: ['libsingularity', 'libsingularity_dep']
@@ -47,7 +48,7 @@ sources = files(
 
 executable('singularity-calendar',
   sources + [resources],
-  dependencies: [gtk_dep, gee_dep, soup_dep, json_dep, libsingularity_dep],
+  dependencies: [gtk_dep, gee_dep, soup_dep, json_dep, libsingularity_dep, math_dep],
   install: true
 )
 
