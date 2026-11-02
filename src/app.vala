@@ -62,6 +62,7 @@ namespace Singularity.Apps.Calendar {
 
         protected override void startup () {
             base.startup ();
+            CalendarIntents.install (this);
             settings = new GLib.Settings ("dev.sinty.calendar");
 
             var menu = new GLib.Menu ();

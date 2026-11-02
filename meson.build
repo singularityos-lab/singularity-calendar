@@ -38,6 +38,7 @@ sources = files(
   'src/window.vala',
   'src/calendar_bus.vala',
   'src/app.vala',
+  'src/agent_intents.vala',
   'src/event_store.vala',
   'src/recurrence_editor.vala',
   'src/event_editor.vala',
