@@ -53,13 +53,11 @@ namespace Singularity.Apps.Calendar {
             agent.add_async_intent ("calendar_list", "List the events between two ISO 8601 dates.",
                 "{\"type\":\"object\",\"properties\":{\"from\":{\"type\":\"string\"},\"to\":{\"type\":\"string\"}},\"required\":[\"from\",\"to\"]}",
                 Singularity.AppIntentRisk.READ, (args, reply) => {
-                    app.activate ();
                     list_events.begin (args, (owned) reply);
                 });
             agent.add_intent ("calendar_add", "Add an event to the first calendar that can be written, or to the one named.",
                 "{\"type\":\"object\",\"properties\":{\"title\":{\"type\":\"string\"},\"start\":{\"type\":\"string\"},\"end\":{\"type\":\"string\"},\"all_day\":{\"type\":\"boolean\"},\"location\":{\"type\":\"string\"},\"description\":{\"type\":\"string\"},\"calendar\":{\"type\":\"string\"}},\"required\":[\"title\",\"start\",\"end\"]}",
                 Singularity.AppIntentRisk.UNDOABLE, (args) => {
-                    app.activate ();
                     var mgr = CalendarManager.get_default ();
                     var writable = EventStore.editable_providers (mgr);
                     string id = text (args, "calendar");

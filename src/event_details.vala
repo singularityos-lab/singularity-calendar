@@ -351,45 +351,13 @@ namespace Singularity.Apps.Calendar {
             empty.subtitle = _("Nothing planned in the next 60 days");
             no_match.description = _("No events match “%s”.").printf (query);
             string last_day = "";
-            var today = new DateTime.now_local ();
             foreach (var evt in events) {
                 string key = evt.start_time.format ("%Y-%m-%d");
                 if (key != last_day) {
                     last_day = key;
-                    string text = evt.start_time.format ("%A %-d %B %Y");
-                    if (CalendarLayout.same_day (evt.start_time, today)) text = _("Today") + ", " + text;
-                    var header = new Label (text);
-                    header.add_css_class ("cal-agenda-day");
-                    header.xalign = 0;
-                    list.append (header);
+                    list.append (AgendaRows.day_header (evt.start_time));
                 }
-                var row = new Button ();
-                row.add_css_class ("flat");
-                row.add_css_class ("cal-agenda-row");
-                var hbox = new Box (Orientation.HORIZONTAL, 10);
-                var swatch = new Box (Orientation.HORIZONTAL, 0);
-                swatch.add_css_class ("cal-color-swatch");
-                swatch.valign = Align.CENTER;
-                CalendarLayout.tint (swatch, evt.color);
-                hbox.append (swatch);
-                var time = new Label (evt.all_day ? _("All day") : CalendarLayout.time_label (evt.start_time));
-                time.width_chars = 8;
-                time.xalign = 0;
-                time.add_css_class ("dim-label");
-                hbox.append (time);
-                var title = new Label (evt.title);
-                title.xalign = 0;
-                title.hexpand = true;
-                title.ellipsize = Pango.EllipsizeMode.END;
-                hbox.append (title);
-                if (evt.location != null && evt.location != "") {
-                    var loc = new Label (evt.location);
-                    loc.add_css_class ("dim-label");
-                    loc.ellipsize = Pango.EllipsizeMode.END;
-                    loc.max_width_chars = 30;
-                    hbox.append (loc);
-                }
-                row.child = hbox;
+                var row = AgendaRows.event_row (evt);
                 var cap = evt;
                 row.clicked.connect (() => event_activated (cap, row));
                 list.append (row);

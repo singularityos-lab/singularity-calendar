@@ -1,0 +1,5 @@
+[Card]
+App=dev.sinty.calendar
+Intents=calendar_list;calendar_add
+Module=libsingularity-calendar-card.so
+Symbol=singularity_calendar_card_new

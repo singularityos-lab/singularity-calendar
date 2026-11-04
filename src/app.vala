@@ -62,6 +62,7 @@ namespace Singularity.Apps.Calendar {
 
         protected override void startup () {
             base.startup ();
+            register_calendars (CalendarManager.get_default ());
             CalendarIntents.install (this);
             settings = new GLib.Settings ("dev.sinty.calendar");
 
@@ -253,7 +254,7 @@ namespace Singularity.Apps.Calendar {
 
         private void setup_styles () {
             var provider = new Gtk.CssProvider ();
-            provider.load_from_string (CAL_CSS);
+            provider.load_from_string (CAL_CSS + AgendaRows.STYLE);
             Gtk.StyleContext.add_provider_for_display (
                 Gdk.Display.get_default (), provider,
                 Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
@@ -446,8 +447,7 @@ button.cal-week-day-btn {
     border-radius: 6px;
 }
 
-.cal-event-dot,
-.cal-color-swatch {
+.cal-event-dot {
     border-radius: 999px;
     min-width: 10px;
     min-height: 10px;
@@ -471,21 +471,6 @@ button.cal-week-day-btn {
 .cal-details-title {
     font-size: 16px;
     font-weight: 700;
-}
-
-.cal-agenda-day {
-    font-weight: bold;
-    font-size: 13px;
-    margin-top: 12px;
-}
-
-.cal-agenda-row {
-    padding: 6px 10px;
-    border-radius: 8px;
-}
-
-.cal-agenda-row:hover {
-    background-color: alpha(@window_fg_color, 0.05);
 }
 
 .cal-attendee-status {
