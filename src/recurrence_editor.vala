@@ -6,14 +6,14 @@ using Singularity.Widgets;
 namespace Singularity.Apps.Calendar {
 
     public class RecurrenceEditor : Box {
-        private DropDown frequency_drop;
+        private ChoiceButton frequency_drop;
         private SpinButton interval_spin;
         private Label interval_unit;
         private Box interval_box;
         private Box weekdays_box;
         private ToggleButton[] weekday_toggles = {};
-        private DropDown monthly_drop;
-        private DropDown end_drop;
+        private ChoiceButton monthly_drop;
+        private ChoiceButton end_drop;
         private SpinButton count_spin;
         private DateButton until_button;
         private Box end_box;
@@ -36,7 +36,7 @@ namespace Singularity.Apps.Calendar {
             var freq_label = new Label (_("Repeat"));
             freq_label.hexpand = true;
             freq_label.xalign = 0;
-            frequency_drop = new DropDown.from_strings ({ _("Never"), _("Daily"), _("Weekly"), _("Monthly"), _("Yearly") });
+            frequency_drop = new ChoiceButton.from_strings ({ _("Never"), _("Daily"), _("Weekly"), _("Monthly"), _("Yearly") });
             freq_row.append (freq_label);
             freq_row.append (frequency_drop);
             append (freq_row);
@@ -69,7 +69,7 @@ namespace Singularity.Apps.Calendar {
             }
             append (weekdays_box);
 
-            monthly_drop = new DropDown.from_strings ({ "", "", "" });
+            monthly_drop = new ChoiceButton.from_strings ({ "", "", "" });
             monthly_drop.hexpand = true;
             append (monthly_drop);
 
@@ -77,7 +77,7 @@ namespace Singularity.Apps.Calendar {
             var ends = new Label (_("Ends"));
             ends.hexpand = true;
             ends.xalign = 0;
-            end_drop = new DropDown.from_strings ({ _("Never"), _("On Date"), _("After") });
+            end_drop = new ChoiceButton.from_strings ({ _("Never"), _("On Date"), _("After") });
             count_spin = new SpinButton.with_range (1, 999, 1);
             count_spin.value = 10;
             until_button = new DateButton (start.add_months (3));
@@ -262,7 +262,7 @@ namespace Singularity.Apps.Calendar {
     }
 
     public class TimeDrop : Box {
-        private DropDown drop;
+        private ChoiceButton drop;
         private string[] values = {};
         private bool updating = false;
 
@@ -283,7 +283,7 @@ namespace Singularity.Apps.Calendar {
         public TimeDrop (string initial) {
             Object (orientation: Orientation.HORIZONTAL, spacing: 0);
             valign = Align.CENTER;
-            drop = new DropDown.from_strings ({});
+            drop = new ChoiceButton.from_strings ({});
             drop.add_css_class ("cal-time-drop");
             append (drop);
             select (initial);

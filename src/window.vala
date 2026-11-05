@@ -739,7 +739,7 @@ namespace Singularity.Apps.Calendar {
                 : ngettext ("%d event will be added.", "%d events will be added.", doc.events.size).printf (doc.events.size);
             var dlg = new ConfirmDialog (app, title, "x-office-calendar-symbolic", text, invite ? _("Add") : _("Import"), ConfirmDialog.ActionStyle.SUGGESTED);
             dlg.transient_for = this;
-            var drop = new DropDown.from_strings (names);
+            var drop = new ChoiceButton.from_strings (names);
             drop.selected = selected;
             drop.halign = Align.CENTER;
             dlg.custom_area.append (drop);

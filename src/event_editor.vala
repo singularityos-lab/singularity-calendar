@@ -16,14 +16,14 @@ namespace Singularity.Apps.Calendar {
 
         private Entry title_entry;
         private Entry location_entry;
-        private DropDown calendar_drop;
+        private ChoiceButton calendar_drop;
         private Switch all_day_switch;
         private DateButton start_date;
         private DateButton end_date;
         private TimeDrop start_time;
         private TimeDrop end_time;
         private RecurrenceEditor recurrence;
-        private DropDown reminder_drop;
+        private ChoiceButton reminder_drop;
         private TextView notes;
         private PreferencesGroup people_group;
         private Entry people_entry;
@@ -76,7 +76,7 @@ namespace Singularity.Apps.Calendar {
                 names += EventStore.label_for (calendars[i]);
                 if (calendars[i].id == draft.calendar_id) selected = i;
             }
-            calendar_drop = new DropDown.from_strings (names);
+            calendar_drop = new ChoiceButton.from_strings (names);
             calendar_drop.selected = selected;
             body.append (labeled (_("Calendar"), calendar_drop));
 
@@ -110,7 +110,7 @@ namespace Singularity.Apps.Calendar {
                 reminder_names += reminder_label (REMINDERS[i]);
                 if (REMINDERS[i] == current) reminder_index = i;
             }
-            reminder_drop = new DropDown.from_strings (reminder_names);
+            reminder_drop = new ChoiceButton.from_strings (reminder_names);
             reminder_drop.selected = reminder_index;
             body.append (labeled (_("Reminder"), reminder_drop));
 
