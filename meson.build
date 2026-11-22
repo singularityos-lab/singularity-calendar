@@ -107,3 +107,32 @@ install_data('data/dev.sinty.calendar.json',
 install_data('data/icons/dev.sinty.calendar.svg',
   install_dir: get_option('datadir') / 'icons' / 'hicolor' / 'scalable' / 'apps'
 )
+
+iride = find_program('iride', required: get_option('iride'))
+if iride.found()
+  custom_target('iride-icon',
+    input: 'data/icons/iride/iride.json',
+    output: 'dev.sinty.calendar.iride',
+    depend_files: files(
+      'data/icons/iride/layers/anelli.svg',
+      'data/icons/iride/layers/foglio.svg',
+      'data/icons/iride/layers/giorni.svg',
+      'data/icons/iride/layers/giorno-0.svg',
+      'data/icons/iride/layers/giorno-1.svg',
+      'data/icons/iride/layers/giorno-10.svg',
+      'data/icons/iride/layers/giorno-2.svg',
+      'data/icons/iride/layers/giorno-3.svg',
+      'data/icons/iride/layers/giorno-4.svg',
+      'data/icons/iride/layers/giorno-5.svg',
+      'data/icons/iride/layers/giorno-6.svg',
+      'data/icons/iride/layers/giorno-7.svg',
+      'data/icons/iride/layers/giorno-8.svg',
+      'data/icons/iride/layers/giorno-9.svg',
+      'data/icons/iride/layers/testata.svg',
+      'data/icons/iride/layers/titolo-e-fori.svg',
+    ),
+    command: [iride, 'build', meson.current_source_dir() / 'data' / 'icons' / 'iride', '@OUTPUT@'],
+    install: true,
+    install_dir: get_option('datadir') / 'icons' / 'hicolor' / 'scalable' / 'apps'
+  )
+endif

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="236" height="236" viewBox="0 0 236 236" fill="none">
+  <defs>
+    <linearGradient id="cl_hi" x1="0" y1="140" x2="0" y2="170" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f76a5f" />
+      <stop offset="1" stop-color="#e5433a" />
+    </linearGradient>
+  </defs>
+  <rect x="122" y="112" width="28" height="22" rx="8" fill="#dfe4ea" />
+</svg>

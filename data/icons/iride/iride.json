@@ -1,0 +1,555 @@
+{
+ "format": 1,
+ "canvas": [
+  236,
+  236
+ ],
+ "box": [
+  28,
+  34,
+  208,
+  210
+ ],
+ "stack": [
+  {
+   "shadow": {
+    "dx": 0,
+    "dy": 5,
+    "blur": 6,
+    "color": "#1a0f0f",
+    "opacity": 0.4,
+    "region": [
+     -20,
+     -20,
+     276,
+     276
+    ]
+   },
+   "stack": [
+    {
+     "layer": "layers/foglio.svg"
+    }
+   ],
+   "piece": "body"
+  },
+  {
+   "layer": "layers/testata.svg",
+   "piece": "header"
+  },
+  {
+   "rim": "M56 34H180Q208 34 208 62V182Q208 210 180 210H56Q28 210 28 182V62Q28 34 56 34Z",
+   "rule": "nonzero",
+   "piece": "edge"
+  },
+  {
+   "layer": "layers/titolo-e-fori.svg",
+   "piece": "title"
+  },
+  {
+   "shadow": {
+    "dx": 0,
+    "dy": 2,
+    "blur": 2,
+    "color": "#5a1410",
+    "opacity": 0.45,
+    "region": [
+     -20,
+     -20,
+     276,
+     276
+    ]
+   },
+   "stack": [
+    {
+     "layer": "layers/anelli.svg"
+    }
+   ],
+   "piece": "rings"
+  },
+  {
+   "layer": "layers/giorno-0.svg",
+   "piece": "day-0"
+  },
+  {
+   "layer": "layers/giorno-1.svg",
+   "piece": "day-1"
+  },
+  {
+   "layer": "layers/giorno-2.svg",
+   "piece": "day-2"
+  },
+  {
+   "layer": "layers/giorno-3.svg",
+   "piece": "day-3"
+  },
+  {
+   "layer": "layers/giorno-4.svg",
+   "piece": "day-4"
+  },
+  {
+   "layer": "layers/giorno-5.svg",
+   "piece": "day-5"
+  },
+  {
+   "layer": "layers/giorno-6.svg",
+   "piece": "day-6"
+  },
+  {
+   "layer": "layers/giorno-7.svg",
+   "piece": "day-7"
+  },
+  {
+   "layer": "layers/giorno-8.svg",
+   "piece": "day-8"
+  },
+  {
+   "layer": "layers/giorno-9.svg",
+   "piece": "day-9"
+  },
+  {
+   "layer": "layers/giorno-10.svg",
+   "piece": "day-10"
+  }
+ ],
+ "motion": [
+  {
+   "piece": "body",
+   "origin": [
+    118,
+    212.4
+   ],
+   "tracks": [
+    {
+     "kind": "scale",
+     "from": [
+      0.92,
+      0.92
+     ],
+     "at": 0,
+     "duration": 260,
+     "ease": "out"
+    }
+   ]
+  },
+  {
+   "piece": "header",
+   "origin": [
+    118,
+    33.984
+   ],
+   "tracks": [
+    {
+     "kind": "tilt",
+     "from": [
+      88
+     ],
+     "at": 100,
+     "duration": 380,
+     "ease": "spring"
+    },
+    {
+     "kind": "opacity",
+     "from": [
+      0
+     ],
+     "at": 100,
+     "duration": 380,
+     "ease": "spring"
+    }
+   ],
+   "clip": [
+    28,
+    -70.8,
+    208,
+    236
+   ]
+  },
+  {
+   "piece": "edge",
+   "origin": [
+    118,
+    118
+   ],
+   "tracks": [
+    {
+     "kind": "opacity",
+     "from": [
+      0
+     ],
+     "at": 330,
+     "duration": 180,
+     "ease": "out"
+    }
+   ]
+  },
+  {
+   "piece": "title",
+   "origin": [
+    118,
+    33.984
+   ],
+   "tracks": [
+    {
+     "kind": "tilt",
+     "from": [
+      88
+     ],
+     "at": 100,
+     "duration": 380,
+     "ease": "spring"
+    },
+    {
+     "kind": "opacity",
+     "from": [
+      0
+     ],
+     "at": 100,
+     "duration": 380,
+     "ease": "spring"
+    }
+   ],
+   "clip": [
+    28,
+    -70.8,
+    208,
+    236
+   ]
+  },
+  {
+   "piece": "rings",
+   "origin": [
+    118,
+    33.04
+   ],
+   "tracks": [
+    {
+     "kind": "translate",
+     "from": [
+      0,
+      -37.76
+     ],
+     "at": 300,
+     "duration": 300,
+     "ease": "spring"
+    },
+    {
+     "kind": "opacity",
+     "from": [
+      0
+     ],
+     "at": 300,
+     "duration": 300,
+     "ease": "spring"
+    }
+   ]
+  },
+  {
+   "piece": "day-0",
+   "origin": [
+    64,
+    123
+   ],
+   "tracks": [
+    {
+     "kind": "scale",
+     "from": [
+      0.2,
+      0.2
+     ],
+     "at": 300,
+     "duration": 220,
+     "ease": "spring"
+    },
+    {
+     "kind": "opacity",
+     "from": [
+      0
+     ],
+     "at": 300,
+     "duration": 140,
+     "ease": "out"
+    }
+   ]
+  },
+  {
+   "piece": "day-1",
+   "origin": [
+    100,
+    123
+   ],
+   "tracks": [
+    {
+     "kind": "scale",
+     "from": [
+      0.2,
+      0.2
+     ],
+     "at": 385,
+     "duration": 220,
+     "ease": "spring"
+    },
+    {
+     "kind": "opacity",
+     "from": [
+      0
+     ],
+     "at": 385,
+     "duration": 140,
+     "ease": "out"
+    }
+   ]
+  },
+  {
+   "piece": "day-2",
+   "origin": [
+    136,
+    123
+   ],
+   "tracks": [
+    {
+     "kind": "scale",
+     "from": [
+      0.2,
+      0.2
+     ],
+     "at": 335,
+     "duration": 220,
+     "ease": "spring"
+    },
+    {
+     "kind": "opacity",
+     "from": [
+      0
+     ],
+     "at": 335,
+     "duration": 140,
+     "ease": "out"
+    }
+   ]
+  },
+  {
+   "piece": "day-3",
+   "origin": [
+    172,
+    123
+   ],
+   "tracks": [
+    {
+     "kind": "scale",
+     "from": [
+      0.2,
+      0.2
+     ],
+     "at": 430,
+     "duration": 220,
+     "ease": "spring"
+    },
+    {
+     "kind": "opacity",
+     "from": [
+      0
+     ],
+     "at": 430,
+     "duration": 140,
+     "ease": "out"
+    }
+   ]
+  },
+  {
+   "piece": "day-4",
+   "origin": [
+    64,
+    155
+   ],
+   "tracks": [
+    {
+     "kind": "scale",
+     "from": [
+      0.2,
+      0.2
+     ],
+     "at": 365,
+     "duration": 220,
+     "ease": "spring"
+    },
+    {
+     "kind": "opacity",
+     "from": [
+      0
+     ],
+     "at": 365,
+     "duration": 140,
+     "ease": "out"
+    }
+   ]
+  },
+  {
+   "piece": "day-5",
+   "origin": [
+    100,
+    155
+   ],
+   "tracks": [
+    {
+     "kind": "scale",
+     "from": [
+      0.2,
+      0.2
+     ],
+     "at": 540,
+     "duration": 220,
+     "ease": "spring"
+    },
+    {
+     "kind": "opacity",
+     "from": [
+      0
+     ],
+     "at": 540,
+     "duration": 140,
+     "ease": "out"
+    }
+   ]
+  },
+  {
+   "piece": "day-6",
+   "origin": [
+    136,
+    155
+   ],
+   "tracks": [
+    {
+     "kind": "scale",
+     "from": [
+      0.2,
+      0.2
+     ],
+     "at": 405,
+     "duration": 220,
+     "ease": "spring"
+    },
+    {
+     "kind": "opacity",
+     "from": [
+      0
+     ],
+     "at": 405,
+     "duration": 140,
+     "ease": "out"
+    }
+   ]
+  },
+  {
+   "piece": "day-7",
+   "origin": [
+    172,
+    155
+   ],
+   "tracks": [
+    {
+     "kind": "scale",
+     "from": [
+      0.2,
+      0.2
+     ],
+     "at": 475,
+     "duration": 220,
+     "ease": "spring"
+    },
+    {
+     "kind": "opacity",
+     "from": [
+      0
+     ],
+     "at": 475,
+     "duration": 140,
+     "ease": "out"
+    }
+   ]
+  },
+  {
+   "piece": "day-8",
+   "origin": [
+    64,
+    187
+   ],
+   "tracks": [
+    {
+     "kind": "scale",
+     "from": [
+      0.2,
+      0.2
+     ],
+     "at": 450,
+     "duration": 220,
+     "ease": "spring"
+    },
+    {
+     "kind": "opacity",
+     "from": [
+      0
+     ],
+     "at": 450,
+     "duration": 140,
+     "ease": "out"
+    }
+   ]
+  },
+  {
+   "piece": "day-9",
+   "origin": [
+    100,
+    187
+   ],
+   "tracks": [
+    {
+     "kind": "scale",
+     "from": [
+      0.2,
+      0.2
+     ],
+     "at": 350,
+     "duration": 220,
+     "ease": "spring"
+    },
+    {
+     "kind": "opacity",
+     "from": [
+      0
+     ],
+     "at": 350,
+     "duration": 140,
+     "ease": "out"
+    }
+   ]
+  },
+  {
+   "piece": "day-10",
+   "origin": [
+    136,
+    187
+   ],
+   "tracks": [
+    {
+     "kind": "scale",
+     "from": [
+      0.2,
+      0.2
+     ],
+     "at": 505,
+     "duration": 220,
+     "ease": "spring"
+    },
+    {
+     "kind": "opacity",
+     "from": [
+      0
+     ],
+     "at": 505,
+     "duration": 140,
+     "ease": "out"
+    }
+   ]
+  }
+ ]
+}

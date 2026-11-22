@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="236" height="236" viewBox="0 0 236 236" fill="none">
+  <defs>
+    <linearGradient id="cl_ring_a" x1="65" y1="0" x2="79" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#8e99a6" />
+      <stop offset="0.4" stop-color="#f4f7fa" />
+      <stop offset="1" stop-color="#6b7482" />
+    </linearGradient>
+    <linearGradient id="cl_ring_b" x1="157" y1="0" x2="171" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#8e99a6" />
+      <stop offset="0.4" stop-color="#f4f7fa" />
+      <stop offset="1" stop-color="#6b7482" />
+    </linearGradient>
+  </defs>
+  <rect x="65" y="16" width="14" height="36" rx="7" fill="url(#cl_ring_a)" />
+  <rect x="157" y="16" width="14" height="36" rx="7" fill="url(#cl_ring_b)" />
+</svg>

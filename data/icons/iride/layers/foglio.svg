@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="236" height="236" viewBox="0 0 236 236" fill="none">
+  <defs>
+    <linearGradient id="cl_paper" x1="118" y1="34" x2="118" y2="210" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffffff" />
+      <stop offset="1" stop-color="#eef1f4" />
+    </linearGradient>
+    <linearGradient id="cl_side" x1="0" y1="200" x2="0" y2="220" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#aeb6c1" />
+      <stop offset="1" stop-color="#8a93a0" />
+    </linearGradient>
+  </defs>
+  <path d="M56 34H180Q208 34 208 62V182Q208 210 180 210H56Q28 210 28 182V62Q28 34 56 34Z" fill="url(#cl_side)" transform="translate(0 10)" />
+  <path d="M56 34H180Q208 34 208 62V182Q208 210 180 210H56Q28 210 28 182V62Q28 34 56 34Z" fill="url(#cl_paper)" />
+</svg>
