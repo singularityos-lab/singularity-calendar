@@ -274,7 +274,7 @@ namespace Singularity.Apps.Calendar {
 
     public class AgendaView : Box {
         private CalendarManager mgr;
-        private Box list;
+        private CalendarAgenda list;
         private ScrolledWindow scroll;
         private WelcomePage empty;
         private StatusPage no_match;
@@ -291,7 +291,8 @@ namespace Singularity.Apps.Calendar {
             scroll = new ScrolledWindow ();
             scroll.hscrollbar_policy = PolicyType.NEVER;
             scroll.vexpand = true;
-            list = new Box (Orientation.VERTICAL, 2);
+            list = new CalendarAgenda ();
+            list.event_activated.connect ((evt, row) => event_activated (evt, row));
             list.margin_start = 24;
             list.margin_top = 12;
             list.margin_end = 24;
@@ -343,25 +344,12 @@ namespace Singularity.Apps.Calendar {
                 events = yield mgr.get_events (from, from.add_days (60));
                 events.sort ((a, b) => a.start_time.compare (b.start_time));
             }
-            Widget? c = list.get_first_child ();
-            while (c != null) { var n = c.get_next_sibling (); list.remove (c); c = n; }
+            list.show_events (events);
             empty.visible = events.size == 0 && query == "";
             no_match.visible = events.size == 0 && query != "";
             scroll.visible = events.size > 0;
             empty.subtitle = _("Nothing planned in the next 60 days");
             no_match.description = _("No events match “%s”.").printf (query);
-            string last_day = "";
-            foreach (var evt in events) {
-                string key = evt.start_time.format ("%Y-%m-%d");
-                if (key != last_day) {
-                    last_day = key;
-                    list.append (AgendaRows.day_header (evt.start_time));
-                }
-                var row = AgendaRows.event_row (evt);
-                var cap = evt;
-                row.clicked.connect (() => event_activated (cap, row));
-                list.append (row);
-            }
         }
     }
 }

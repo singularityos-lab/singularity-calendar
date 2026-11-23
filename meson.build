@@ -43,7 +43,6 @@ sources = files(
   'src/recurrence_editor.vala',
   'src/event_editor.vala',
   'src/event_details.vala',
-  'src/agenda_rows.vala',
   'src/invitations.vala',
   'src/search.vala',
 )
@@ -61,7 +60,7 @@ shared_module('singularity-calendar-widget',
   install_dir: get_option('libdir') / 'singularity' / 'widgets'
 )
 shared_module('singularity-calendar-card',
-  files('card/agent_card.vala', 'src/agenda_rows.vala'),
+  files('card/agent_card.vala'),
   dependencies: [gtk_dep, gee_dep, json_dep, libsingularity_dep],
   install: true,
   install_dir: get_option('libdir') / 'singularity' / 'cards'

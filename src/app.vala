@@ -254,7 +254,7 @@ namespace Singularity.Apps.Calendar {
 
         private void setup_styles () {
             var provider = new Gtk.CssProvider ();
-            provider.load_from_string (CAL_CSS + AgendaRows.STYLE);
+            provider.load_from_string (CAL_CSS);
             Gtk.StyleContext.add_provider_for_display (
                 Gdk.Display.get_default (), provider,
                 Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);

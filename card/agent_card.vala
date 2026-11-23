@@ -4,7 +4,6 @@ using Singularity.Calendar;
 namespace Singularity.Apps.Calendar {
 
     public class AgentCard : Object {
-        private static bool styled = false;
 
         private static string text (Json.Object o, string key) {
             return o.has_member (key) && o.get_member (key).get_value_type () == typeof (string) ? o.get_string_member (key) : "";
@@ -71,12 +70,6 @@ namespace Singularity.Apps.Calendar {
                 if (e != null) events.add (e);
             }
             events.sort ((a, b) => a.start_time.compare (b.start_time));
-            if (!styled) {
-                var css = new CssProvider ();
-                css.load_from_string (AgendaRows.STYLE);
-                StyleContext.add_provider_for_display (Gdk.Display.get_default (), css, STYLE_PROVIDER_PRIORITY_USER + 1);
-                styled = true;
-            }
             var box = new Box (Orientation.VERTICAL, 2);
             if (events.size == 0) {
                 var none = new Label (_("Nothing planned"));
@@ -90,11 +83,11 @@ namespace Singularity.Apps.Calendar {
                 string key = evt.start_time.format ("%Y-%m-%d");
                 if (key != last_day) {
                     last_day = key;
-                    var header = AgendaRows.day_header (evt.start_time);
+                    var header = Singularity.Widgets.CalendarAgenda.day_header (evt.start_time);
                     if (box.get_first_child () == null) header.margin_top = 0;
                     box.append (header);
                 }
-                var row = AgendaRows.event_row (evt);
+                var row = Singularity.Widgets.CalendarAgenda.event_row (evt);
                 var day = evt.start_time;
                 row.clicked.connect (() => show_day (day));
                 box.append (row);
