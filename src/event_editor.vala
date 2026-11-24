@@ -334,6 +334,45 @@ namespace Singularity.Apps.Calendar {
             error_label.visible = true;
         }
 
+        public CalendarEvent snapshot () {
+            CalendarEvent edited = draft;
+            edited.title = title_entry.text;
+            edited.location = location_entry.text;
+            edited.description = notes.buffer.text;
+            edited.all_day = all_day_switch.active;
+            edited.start_time = compose (start_date, start_time);
+            edited.end_time = compose (end_date, end_time);
+            if (all_day_switch.active) edited.end_time = edited.end_time.add_days (1);
+            if (calendars.size > 0) edited.calendar_id = calendars[(int) calendar_drop.selected.clamp (0, calendars.size - 1)].id;
+            edited.recurrence = recurrence.rrule ();
+            int reminder = REMINDERS[reminder_drop.selected.clamp (0, REMINDERS.length - 1)];
+            int[] alarms = {};
+            if (reminder >= 0) alarms += reminder;
+            if (draft.alarms != null) {
+                for (int i = 1; i < draft.alarms.length; i++) alarms += draft.alarms[i];
+            }
+            edited.alarms = alarms;
+            edited.attendees = EventStore.copy_attendees (attendees);
+            return edited;
+        }
+
+        public Variant save_migration () {
+            var d = new VariantDict ();
+            if (original != null) d.insert_value ("original", EventStore.event_to_variant (original));
+            d.insert_value ("draft", EventStore.event_to_variant (snapshot ()));
+            d.insert_value ("duration", new Variant.int64 (duration));
+            d.insert_value ("error", new Variant.string (error_label.visible ? error_label.label : ""));
+            return d.end ();
+        }
+
+        public void restore_migration (Variant data) {
+            var d = new VariantDict (data);
+            var span = d.lookup_value ("duration", VariantType.INT64);
+            if (span != null) duration = span.get_int64 ();
+            var error = d.lookup_value ("error", VariantType.STRING);
+            if (error != null && error.get_string () != "") show_error (error.get_string ());
+        }
+
         private void on_save () {
             var start = compose (start_date, start_time);
             var end = compose (end_date, end_time);
@@ -347,22 +386,10 @@ namespace Singularity.Apps.Calendar {
                 return;
             }
             if (people_entry.text.strip () != "") add_people ();
-            CalendarEvent edited = draft;
+            CalendarEvent edited = snapshot ();
             edited.title = title_entry.text.strip () != "" ? title_entry.text.strip () : _("Untitled Event");
             edited.location = location_entry.text.strip ();
             edited.description = notes.buffer.text.strip ();
-            edited.all_day = all_day_switch.active;
-            edited.start_time = start;
-            edited.end_time = end;
-            edited.calendar_id = calendars[(int) calendar_drop.selected.clamp (0, calendars.size - 1)].id;
-            edited.recurrence = recurrence.rrule ();
-            int reminder = REMINDERS[reminder_drop.selected.clamp (0, REMINDERS.length - 1)];
-            int[] alarms = {};
-            if (reminder >= 0) alarms += reminder;
-            if (draft.alarms != null) {
-                for (int i = 1; i < draft.alarms.length; i++) alarms += draft.alarms[i];
-            }
-            edited.alarms = alarms;
             edited.attendees = attendees;
             if (attendees.size > 0 && (edited.organizer == null || edited.organizer == "")) {
                 edited.organizer = app.settings.get_string ("owner-email");

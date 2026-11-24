@@ -327,11 +327,49 @@ namespace Singularity.Apps.Calendar {
         }
 
         private void open_editor (CalendarEvent? original, CalendarEvent draft) {
-            var editor = new EventEditor (app, original, draft);
+            adopt_editor (new EventEditor (app, original, draft)).present ();
+        }
+
+        private EventEditor adopt_editor (EventEditor editor) {
             editor.transient_for = this;
             editor.saved.connect (on_editor_saved);
             editor.delete_requested.connect (delete_event);
-            editor.present ();
+            return editor;
+        }
+
+        public EventEditor restore_editor (Variant data) {
+            var d = new VariantDict (data);
+            var original = d.lookup_value ("original", new VariantType (EventStore.EVENT_TYPE));
+            var draft = d.lookup_value ("draft", new VariantType (EventStore.EVENT_TYPE));
+            CalendarEvent? before = null;
+            if (original != null) before = EventStore.event_from_variant (original);
+            var editor = adopt_editor (new EventEditor (app, before, draft != null ? EventStore.event_from_variant (draft) : EventStore.blank (current_date, current_date.add_hours (1), false)));
+            editor.restore_migration (data);
+            return editor;
+        }
+
+        public Variant save_migration () {
+            var d = new VariantDict ();
+            d.insert_value ("date", new Variant.string (current_date.format_iso8601 ()));
+            d.insert_value ("view", new Variant.string (view_stack.visible_child_name));
+            d.insert_value ("view-before-search", new Variant.string (view_before_search));
+            d.insert_value ("query", new Variant.string (search.text));
+            return d.end ();
+        }
+
+        public void restore_migration (Variant data) {
+            var d = new VariantDict (data);
+            var date = d.lookup_value ("date", VariantType.STRING);
+            var parsed = date != null ? new DateTime.from_iso8601 (date.get_string (), null) : null;
+            if (parsed != null) current_date = parsed.to_local ();
+            view_before_search = (d.lookup_value ("view-before-search", VariantType.STRING) ?? new Variant.string ("month")).get_string ();
+            string query = (d.lookup_value ("query", VariantType.STRING) ?? new Variant.string ("")).get_string ();
+            if (query != "") {
+                search.text = query;
+                agenda_view.set_query (query);
+            }
+            show_view ((d.lookup_value ("view", VariantType.STRING) ?? new Variant.string ("month")).get_string ());
+            refresh_current ();
         }
 
         private void on_editor_saved (CalendarEvent? original, CalendarEvent edited) {

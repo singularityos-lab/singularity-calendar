@@ -64,6 +64,70 @@ namespace Singularity.Apps.Calendar {
             return evt;
         }
 
+        public const string EVENT_TYPE = "(sssxxsbssasssa(ssss)aisx)";
+
+        private static int64 usec_of (DateTime? time) {
+            return time != null ? time.to_unix () * 1000000 + time.get_microsecond () : -1;
+        }
+
+        private static DateTime? time_of (int64 usec) {
+            if (usec < 0) return null;
+            return new DateTime.from_unix_local (usec / 1000000).add (usec % 1000000);
+        }
+
+        public static Variant event_to_variant (CalendarEvent evt) {
+            var people = new VariantBuilder (new VariantType ("a(ssss)"));
+            if (evt.attendees != null) foreach (var a in evt.attendees) people.add ("(ssss)", a.email, a.name, a.role, a.status);
+            var alarms = new VariantBuilder (new VariantType ("ai"));
+            if (evt.alarms != null) foreach (int m in evt.alarms) alarms.add ("i", m);
+            return new Variant.tuple ({
+                new Variant.string (evt.id ?? ""),
+                new Variant.string (evt.title ?? ""),
+                new Variant.string (evt.description ?? ""),
+                new Variant.int64 (usec_of (evt.start_time)),
+                new Variant.int64 (usec_of (evt.end_time)),
+                new Variant.string (evt.color ?? ""),
+                new Variant.boolean (evt.all_day),
+                new Variant.string (evt.location ?? ""),
+                new Variant.string (evt.recurrence ?? ""),
+                new Variant.strv (evt.exdates ?? new string[0]),
+                new Variant.string (evt.organizer ?? ""),
+                new Variant.string (evt.organizer_name ?? ""),
+                people.end (),
+                alarms.end (),
+                new Variant.string (evt.calendar_id ?? ""),
+                new Variant.int64 (usec_of (evt.occurrence_start))
+            });
+        }
+
+        public static CalendarEvent event_from_variant (Variant v) {
+            var evt = CalendarEvent ();
+            evt.id = v.get_child_value (0).get_string ();
+            evt.title = v.get_child_value (1).get_string ();
+            evt.description = v.get_child_value (2).get_string ();
+            evt.start_time = time_of (v.get_child_value (3).get_int64 ());
+            evt.end_time = time_of (v.get_child_value (4).get_int64 ());
+            evt.color = v.get_child_value (5).get_string ();
+            evt.all_day = v.get_child_value (6).get_boolean ();
+            evt.location = v.get_child_value (7).get_string ();
+            evt.recurrence = v.get_child_value (8).get_string ();
+            evt.exdates = v.get_child_value (9).dup_strv ();
+            evt.organizer = v.get_child_value (10).get_string ();
+            evt.organizer_name = v.get_child_value (11).get_string ();
+            evt.attendees = new Gee.ArrayList<CalendarAttendee> ();
+            var it = v.get_child_value (12).iterator ();
+            string email, name, role, status;
+            while (it.next ("(ssss)", out email, out name, out role, out status)) {
+                var a = new CalendarAttendee (email, name, status);
+                a.role = role;
+                evt.attendees.add (a);
+            }
+            evt.alarms = (int[]) v.get_child_value (13);
+            evt.calendar_id = v.get_child_value (14).get_string ();
+            evt.occurrence_start = time_of (v.get_child_value (15).get_int64 ());
+            return evt;
+        }
+
         public static Gee.ArrayList<CalendarAttendee> copy_attendees (Gee.List<CalendarAttendee>? list) {
             var result = new Gee.ArrayList<CalendarAttendee> ();
             if (list != null) foreach (var a in list) result.add (a.copy ());

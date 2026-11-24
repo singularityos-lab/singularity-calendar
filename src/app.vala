@@ -7,7 +7,7 @@ using Singularity.Widgets;
 
 namespace Singularity.Apps.Calendar {
 
-    public class CalendarApp : Singularity.Application {
+    public class CalendarApp : Singularity.Application, Singularity.Migration.Migratable {
         private CalendarWindow win;
         public GLib.Settings settings { get; private set; }
         private CalendarSearch search_provider;
@@ -62,6 +62,7 @@ namespace Singularity.Apps.Calendar {
 
         protected override void startup () {
             base.startup ();
+            setup_styles ();
             register_calendars (CalendarManager.get_default ());
             CalendarIntents.install (this);
             settings = new GLib.Settings ("dev.sinty.calendar");
@@ -197,11 +198,34 @@ namespace Singularity.Apps.Calendar {
         public delegate void ActionCallback ();
 
         private CalendarWindow ensure_window () {
-            if (win == null) {
-                setup_styles ();
-                win = new CalendarWindow (this);
-            }
+            if (win == null || win.application == null) win = new CalendarWindow (this);
             return win;
+        }
+
+        public Variant save_model () {
+            return new VariantDict ().end ();
+        }
+
+        public async void restore_model (Variant model) throws Error {
+        }
+
+        public string window_kind (Gtk.Window w) {
+            if (w is CalendarWindow) return "calendar";
+            if (w is EventEditor) return "editor";
+            return "";
+        }
+
+        public Variant save_window (Gtk.Window w) {
+            if (w is EventEditor) return ((EventEditor) w).save_migration ();
+            return ((CalendarWindow) w).save_migration ();
+        }
+
+        public async Gtk.Window? rebuild_window (string kind, Variant data) throws Error {
+            if (kind == "editor") return ensure_window ().restore_editor (data);
+            if (kind != "calendar") return null;
+            var w = ensure_window ();
+            w.restore_migration (data);
+            return w;
         }
 
         public override void activate () {
